@@ -12,9 +12,6 @@
     # Editor (Phase 6)
     inputs.nixvim.homeModules.nixvim
     ./nixvim
-
-    # Browser (Phase 7)
-    inputs.zen-browser.homeModules.beta
   ];
 
   home.username = "westonw";
@@ -57,35 +54,22 @@
     };
   };
 
-  # Kitty terminal (Stylix handles theming)
-  programs.kitty = {
+  # Ghostty terminal (Stylix handles theming)
+  programs.ghostty = {
     enable = true;
     settings = {
-      scrollback_lines = 10000;
-      enable_audio_bell = false;
-      copy_on_select = "clipboard";
-      window_padding_width = 6;
+      cursor-style = "block";
+      cursor-style-blink = false;
+      mouse-hide-while-typing = true;
     };
   };
 
-  # Zen Browser
-  programs.zen-browser = {
+  # Vivaldi Browser
+  programs.vivaldi = {
     enable = true;
-    policies = {
-      DisableAppUpdate = true;
-      DisableTelemetry = true;
-      DisableFeedbackCommands = true;
-      DisableFirefoxStudies = true;
-      DisablePocket = true;
-      DontCheckDefaultBrowser = true;
-      NoDefaultBookmarks = true;
-      EnableTrackingProtection = {
-        Value = true;
-        Locked = true;
-        Cryptomining = true;
-        Fingerprinting = true;
-      };
-    };
+    commandLineArgs = [
+      "--ozone-platform=wayland"
+    ];
   };
 
   # Let home-manager manage itself

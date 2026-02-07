@@ -21,7 +21,7 @@ in
       allow_markup = true;
       insensitive = true;
       matching = "fuzzy";
-      term = "kitty";
+      term = "ghostty";
     };
 
     # Theme-aware styling with rounded corners

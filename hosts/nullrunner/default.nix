@@ -145,6 +145,9 @@
   # Nix settings
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # Don't change this ever
   system.stateVersion = "25.11";
 }

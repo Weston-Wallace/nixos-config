@@ -23,12 +23,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Zen browser
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Consistent theming engine
     stylix = {
       url = "github:danth/stylix";
@@ -36,7 +30,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixvim, zen-browser, stylix }@inputs:
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixvim, stylix }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
