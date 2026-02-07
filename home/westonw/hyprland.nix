@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   colors = config.lib.stylix.colors;
@@ -6,40 +11,40 @@ let
   wallpapersDir = "$HOME/nixos-config/wallpapers";
 
   wallpaperSwitcher = pkgs.writeShellScript "wallpaper-switcher" ''
-    set -e
-    
-    # Define wallpapers with friendly names
-    wallpapers="lit-up-sky.png|Night Sky
-train-sideview.png|Train Sideview
-minimalist-black-hole.png|Black Hole
-pixel-car.png|Pixel Car
-pixel-galaxy.png|Pixel Galaxy
-satellite.png|Satellite
-space.png|Deep Space
-voyager-17.jpg|Voyager"
-    
-    # Show selection menu
-    choice=$(echo "$wallpapers" | wofi --dmenu --prompt "Select Wallpaper" --insensitive --matching fuzzy --width 400 --height 300 | cut -d'|' -f1)
-    
-    if [ -n "$choice" ]; then
-      # Check if swww-daemon is running, start if not
-      if ! pgrep -x "swww-daemon" > /dev/null; then
-        swww-daemon &
-        sleep 0.5
-      fi
-      
-      # Set the wallpaper with a smooth 60fps transition
-      # --transition-fps 60: Higher framerate for smoother animation on 165Hz display
-      # --transition-step 45: Lower step value for smoother interpolation (default is 90 for grow)
-      # --filter Nearest: Fastest filter for quicker image loading (good for pixel art wallpapers)
-      swww img "${wallpapersDir}/$choice" --transition-type grow --transition-pos 0.5,0.5 --transition-duration 0.8 --transition-fps 60 --transition-step 45 --filter Nearest &
-      
-      # Wait for swww to finish loading and start transition
-      wait $!
-      
-      # Notify success
-      notify-send "Wallpaper Changed" "Applied: $(echo "$wallpapers" | grep "^$choice|" | cut -d'|' -f2)" --icon=preferences-desktop-wallpaper --expire-time=3000
-    fi
+        set -e
+        
+        # Define wallpapers with friendly names
+        wallpapers="lit-up-sky.png|Night Sky
+    train-sideview.png|Train Sideview
+    minimalist-black-hole.png|Black Hole
+    pixel-car.png|Pixel Car
+    pixel-galaxy.png|Pixel Galaxy
+    satellite.png|Satellite
+    space.png|Deep Space
+    voyager-17.jpg|Voyager"
+        
+        # Show selection menu
+        choice=$(echo "$wallpapers" | wofi --dmenu --prompt "Select Wallpaper" --insensitive --matching fuzzy --width 400 --height 300 | cut -d'|' -f1)
+        
+        if [ -n "$choice" ]; then
+          # Check if swww-daemon is running, start if not
+          if ! pgrep -x "swww-daemon" > /dev/null; then
+            swww-daemon &
+            sleep 0.5
+          fi
+          
+          # Set the wallpaper with a smooth 60fps transition
+          # --transition-fps 60: Higher framerate for smoother animation on 165Hz display
+          # --transition-step 45: Lower step value for smoother interpolation (default is 90 for grow)
+          # --filter Nearest: Fastest filter for quicker image loading (good for pixel art wallpapers)
+          swww img "${wallpapersDir}/$choice" --transition-type grow --transition-pos 0.5,0.5 --transition-duration 0.8 --transition-fps 60 --transition-step 45 --filter Nearest &
+          
+          # Wait for swww to finish loading and start transition
+          wait $!
+          
+          # Notify success
+          notify-send "Wallpaper Changed" "Applied: $(echo "$wallpapers" | grep "^$choice|" | cut -d'|' -f2)" --icon=preferences-desktop-wallpaper --expire-time=3000
+        fi
   '';
 
 in
@@ -172,7 +177,7 @@ in
         "$mod, W, killactive,"
         "$mod SHIFT, E, exit,"
 
-        # Clipboard history picker (Ghostty uses Super+C/V internally)
+        # Clipboard history picker
         "$mod SHIFT, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
 
         # Layout
