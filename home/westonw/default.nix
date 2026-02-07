@@ -22,6 +22,7 @@
   home.packages = with pkgs; [
     # Wayland utilities
     wl-clipboard
+    cliphist
     grim
     slurp
     swww

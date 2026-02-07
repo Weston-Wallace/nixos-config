@@ -128,6 +128,9 @@ in
         "$mod, W, killactive,"
         "$mod SHIFT, E, exit,"
 
+        # Clipboard history picker (Ghostty uses Super+C/V internally)
+        "$mod SHIFT, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+
         # Layout
         "$mod, F, fullscreen, 0"
         "$mod, V, togglefloating,"
@@ -205,6 +208,8 @@ in
         "mako"
         "swww-daemon"
         "swww img ${config.stylix.image}"
+        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type image --watch cliphist store"
       ];
     };
   };

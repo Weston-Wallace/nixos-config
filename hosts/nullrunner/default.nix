@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 {
   imports = [
@@ -69,7 +75,11 @@
   # User
   users.users.westonw = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+    ];
   };
 
   # System packages (user-level packages moved to home-manager)
@@ -99,7 +109,7 @@
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
 
     # Wallpaper (swap by changing the path to any image in ../../wallpapers/)
-    image = ../../wallpapers/voyager-17.jpg;
+    image = ../../wallpapers/train-sideview.png;
 
     # Fonts
     fonts = {
@@ -144,7 +154,10 @@
   };
 
   # Nix settings
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
