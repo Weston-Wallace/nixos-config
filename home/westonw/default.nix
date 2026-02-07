@@ -6,8 +6,9 @@
     ./hyprland.nix
     ./waybar.nix
     ./wofi.nix
-    ./mako.nix
+    ./swaync.nix
     ./hyprlock.nix
+    ./spicetify.nix
 
     # Editor (Phase 6)
     inputs.nixvim.homeModules.nixvim
@@ -27,12 +28,20 @@
     slurp
     swww
     brightnessctl
+    hyprshot
+
+    # Bluetooth
+    blueman
 
     # CLI tools
     btop
     curl
     wget
     unzip
+    jq
+
+    # GUI apps
+    vesktop
 
     # Coding agent
     opencode

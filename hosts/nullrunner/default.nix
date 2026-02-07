@@ -58,6 +58,22 @@
     };
   };
 
+  # Polkit agent for GUI authentication dialogs
+  security.polkit.enable = true;
+  systemd.user.services.polkit-agent = {
+    description = "Polkit authentication agent";
+    wantedBy = [ "graphical-session.target" ];
+    wants = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent";
+      Restart = "on-failure";
+      RestartSec = 1;
+      TimeoutStopSec = 10;
+    };
+  };
+
   # Power management
   services.power-profiles-daemon.enable = true;
 
@@ -72,6 +88,14 @@
     pulse.enable = true;
   };
 
+  # Bluetooth
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings.General.Experimental = true;
+  };
+  services.blueman.enable = true;
+
   # User
   users.users.westonw = {
     isNormalUser = true;
@@ -79,6 +103,7 @@
       "wheel"
       "networkmanager"
       "video"
+      "lp"
     ];
   };
 

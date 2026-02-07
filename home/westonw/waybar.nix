@@ -23,9 +23,13 @@ in
         modules-left = [ "hyprland/workspaces" ];
         modules-center = [ "clock" ];
         modules-right = [
+          "custom/notification"
           "cpu"
           "memory"
+          "temperature"
+          "disk"
           "pulseaudio"
+          "bluetooth"
           "network"
           "battery"
           "tray"
@@ -52,6 +56,19 @@ in
           format = "󰥔 {:%H:%M}";
           format-alt = "󰃭 {:%A, %B %d, %Y}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
+          calendar = {
+            mode = "month";
+            weeks-pos = "left";
+            on-click-right = "mode";
+            format = {
+              months = "<span color='" + c.base0D + "'><b>{}</b></span>";
+              days = "<span color='" + c.base05 + "'>{}</span>";
+              weeks = "<span color='" + c.base04 + "'>{}</span>";
+              weekdays = "<span color='" + c.base0D + "'>{}</span>";
+              today = "<span color='" + c.base08 + "'><b>{}</b></span>";
+            };
+          };
+          on-click = "mode";
         };
 
         cpu = {
@@ -65,6 +82,54 @@ in
           interval = 5;
           tooltip = true;
           tooltip-format = "{used:0.1f}GiB / {total:0.1f}GiB";
+        };
+
+        temperature = {
+          format = "󰔏 {temperatureC}°C";
+          format-critical = "󱃂 {temperatureC}°C";
+          critical-threshold = 80;
+          interval = 5;
+          tooltip = true;
+          hwmon-path = "/sys/class/hwmon/hwmon1/temp1_input";
+        };
+
+        disk = {
+          format = "󰋊 {percentage_used}%";
+          path = "/";
+          interval = 30;
+          tooltip = true;
+          tooltip-format = "{used} / {total} ({percentage_used}%)";
+        };
+
+        bluetooth = {
+          format = "󰂯 {status}";
+          format-connected = "󰂯 {device_alias}";
+          format-connected-battery = "󰂯 {device_alias} {device_battery_percentage}%";
+          format-disabled = "󰂲 off";
+          format-off = "󰂲 off";
+          interval = 30;
+          on-click = "blueman-manager";
+          on-click-right = "rfkill toggle bluetooth";
+          tooltip-format = "{controller_alias} ({status})";
+          tooltip-format-connected = "{controller_alias} (connected to {device_alias})";
+          tooltip-format-off = "{controller_alias} (off)";
+        };
+
+        "custom/notification" = {
+          format = "{} {icon}";
+          format-icons = {
+            notification = "󰂚";
+            none = "󰂛";
+            dnd-notification = "󰂛";
+            dnd-none = "󰂛";
+          };
+          return-type = "json";
+          exec-if = "which swaync-client";
+          exec = "swaync-client -swb";
+          on-click = "swaync-client -t -sw";
+          on-click-right = "swaync-client -d -sw";
+          escape = true;
+          restart-interval = 1;
         };
 
         pulseaudio = {
@@ -138,15 +203,33 @@ in
       #clock,
       #cpu,
       #memory,
+      #temperature,
+      #disk,
       #pulseaudio,
+      #bluetooth,
       #network,
       #battery,
-      #tray {
+      #tray,
+      #custom-notification {
         padding: 0 12px;
         margin: 4px 2px;
         border-radius: 10px;
         background: ${rgba "base01" "0.6"};
         color: ${c.base05};
+        transition: all 0.2s ease;
+      }
+
+      #clock:hover,
+      #cpu:hover,
+      #memory:hover,
+      #temperature:hover,
+      #disk:hover,
+      #pulseaudio:hover,
+      #bluetooth:hover,
+      #network:hover,
+      #battery:hover,
+      #custom-notification:hover {
+        background: ${rgba "base0D" "0.15"};
       }
 
       #clock {
@@ -165,6 +248,35 @@ in
 
       #network.disconnected {
         color: ${c.base03};
+      }
+
+      #temperature.critical {
+        color: ${c.base08};
+        animation: blink 1s linear infinite;
+      }
+
+      #disk.warning {
+        color: ${c.base09};
+      }
+
+      #disk.critical {
+        color: ${c.base08};
+      }
+
+      #bluetooth.disabled {
+        color: ${c.base03};
+      }
+
+      #bluetooth.connected {
+        color: ${c.base0D};
+      }
+
+      #custom-notification {
+        color: ${c.base05};
+      }
+
+      #custom-notification.notification {
+        color: ${c.base0A};
       }
 
       @keyframes blink {

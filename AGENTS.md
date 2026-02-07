@@ -22,7 +22,8 @@ home/westonw/
   hyprlock.nix                   # Lock screen + idle daemon config
   waybar.nix                     # Status bar config + embedded CSS
   wofi.nix                       # App launcher config + embedded CSS
-  mako.nix                       # Notification daemon config
+  swaync.nix                     # Notification daemon config (replaces mako)
+  spicetify.nix                  # Spotify theming via Spicetify
   nixvim/
     default.nix                  # Nixvim entrypoint (options, colorscheme)
     plugins.nix                  # Editor plugins (telescope, nvim-tree, treesitter, etc.)
@@ -153,6 +154,19 @@ Omit `let` entirely when no local bindings are needed.
 - No custom packages, overlays, or derivations. All packages from nixpkgs or flake inputs.
 - All flake inputs that depend on nixpkgs use `inputs.nixpkgs.follows = "nixpkgs"`.
 
+### Flake Inputs
+
+The following external inputs are used:
+
+- **nixpkgs** - Main package repository (nixos-unstable channel)
+- **nixos-hardware** - Hardware-specific modules for Framework 16 AMD
+- **home-manager** - User environment management
+- **nixvim** - Declarative Neovim configuration
+- **stylix** - System-wide theming (Catppuccin Mocha)
+- **spicetify-nix** - Spotify theming via Spicetify (see `spicetify.nix`)
+
+All inputs that depend on nixpkgs use `follows` to ensure version consistency.
+
 ### Theming
 
 Colors come from Stylix, accessed via `config.lib.stylix.colors` (base16).
@@ -163,8 +177,12 @@ The theme is **Catppuccin Mocha** applied globally.
 **Wallpapers** are stored as image files in `wallpapers/` at the repo root
 and committed directly (jj/git LFS is not used -- typical wallpapers are
 well under 1 MB). The active wallpaper is set in `hosts/nullrunner/default.nix`
-via `stylix.image = ../../wallpapers/<filename>;`. To switch wallpapers, add
-the new image to `wallpapers/` and update that path.
+via `stylix.image = ../../wallpapers/<filename>;`.
+
+A **wallpaper switcher** is available via `Super+Shift+W` (defined in
+`hyprland.nix`). It uses wofi to present a menu of all wallpapers with
+nice animations when switching. The switcher is also defined as a Nix
+expression (using `pkgs.writeShellScript`) embedded in `hyprland.nix`.
 
 ### File and Directory Naming
 
