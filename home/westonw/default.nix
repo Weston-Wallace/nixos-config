@@ -43,9 +43,11 @@
     wget
     unzip
     jq
+    godot
 
     # GUI apps
     vesktop
+    blender
 
     # Coding agent
     opencode
@@ -75,6 +77,7 @@
       cursor-style = "block";
       cursor-style-blink = false;
       mouse-hide-while-typing = true;
+      background-opacity = "0.85";
     };
   };
 

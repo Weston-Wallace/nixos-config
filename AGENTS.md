@@ -207,6 +207,22 @@ No `assert`, `throw`, or `builtins.abort` usage.
   or SSH private keys. No secrets management tool (agenix, sops-nix) is
   configured.
 
+### Avoid Repeated Rebuild Suggestions
+
+The user has a shell alias `nrs` for the rebuild command:
+```bash
+alias nrs='sudo nixos-rebuild switch --flake ~/nixos-config#nullrunner'
+```
+
+**Do not repeatedly suggest running `sudo nixos-rebuild switch` or `nrs`**
+unless the system configuration has meaningfully changed in a way that requires
+rebuilding (e.g., you added a new package, changed a service, or modified a module).
+If validation passes (`nix flake check`), assume the user knows when to rebuild.
+Only mention rebuild steps if:
+- You made changes that genuinely require a system rebuild to test
+- You're unsure whether the user wants to rebuild yet
+- The changes affect system services that need restarting
+
 ## Critical Maintenance Rule
 
 **Keep this file up to date.** When you add new files, change the directory

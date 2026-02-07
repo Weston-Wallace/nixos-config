@@ -63,8 +63,8 @@ in
 
     settings = {
       # ── Monitors ────────────────────────────────────────────────────────────────
-      # Auto-detect (Framework 16 internal + any external)
-      monitor = [ ", preferred, auto, 1" ];
+        # Auto-detect (Framework 16 internal + any external)
+        monitor = [ ", preferred, auto, 1.25" ];
 
       # ── Input ───────────────────────────────────────────────────────────────────
       input = {
@@ -185,7 +185,8 @@ in
       bind = [
         # Applications
         "$mod, Return, exec, $terminal"
-        "$mod, D, exec, $menu"
+        "$mod, B, exec, vivaldi"
+        "$mod, Space, exec, $menu"
         "$mod, W, killactive,"
         "$mod SHIFT, E, exit,"
 
