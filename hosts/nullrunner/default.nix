@@ -80,6 +80,9 @@
   # Firmware updates
   services.fwupd.enable = true;
 
+  # Fingerprint reader
+  services.fprintd.enable = true;
+
   # Audio
   services.pipewire = {
     enable = true;

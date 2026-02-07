@@ -246,6 +246,26 @@ in
         "$mod, mouse:273, resizewindow"
       ];
 
+      # ── Media Keys (Framework 16 Function Keys) ───────────────────────────────────
+      bindel = [
+        # F1-F3: Volume controls
+        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+
+        # F4-F6: Media controls
+        ", XF86AudioPrev, exec, playerctl previous"
+        ", XF86AudioPlay, exec, playerctl play-pause"
+        ", XF86AudioNext, exec, playerctl next"
+
+        # F7-F8: Brightness controls
+        ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+        ", XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+
+        # F9 (if needed): Mic mute
+        # ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+      ];
+
       # ── Window Rules ────────────────────────────────────────────────────────────
       windowrule = [
         "float on, match:class ^(pavucontrol)$"

@@ -30,6 +30,10 @@
     brightnessctl
     hyprshot
 
+    # Audio
+    pavucontrol
+    playerctl
+
     # Bluetooth
     blueman
 
