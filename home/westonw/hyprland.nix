@@ -63,6 +63,7 @@ in
           natural_scroll = true;
           tap-to-click = true;
           drag_lock = true;
+          scroll_factor = 0.25;
         };
       };
 
