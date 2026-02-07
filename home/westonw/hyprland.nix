@@ -10,11 +10,24 @@ let
 
   wallpapersDir = "$HOME/nixos-config/wallpapers";
 
+  powerMenu = pkgs.writeShellScript "power-menu" ''
+    choice=$(echo -e "Shutdown\nReboot\nCancel" | wofi --dmenu --prompt "Power Menu" --width 300 --height 200)
+    
+    case "$choice" in
+      Shutdown)
+        confirm=$(echo -e "Yes\nNo" | wofi --dmenu --prompt "Shutdown?" --width 200 --height 150)
+        [ "$confirm" = "Yes" ] && systemctl poweroff
+        ;;
+      Reboot)
+        confirm=$(echo -e "Yes\nNo" | wofi --dmenu --prompt "Reboot?" --width 200 --height 150)
+        [ "$confirm" = "Yes" ] && systemctl reboot
+        ;;
+    esac
+  '';
+
   wallpaperSwitcher = pkgs.writeShellScript "wallpaper-switcher" ''
-        set -e
-        
-        # Define wallpapers with friendly names
-        wallpapers="lit-up-sky.png|Night Sky
+    # Define wallpapers with friendly names
+    wallpapers="lit-up-sky.png|Night Sky
     train-sideview.png|Train Sideview
     minimalist-black-hole.png|Black Hole
     pixel-car.png|Pixel Car
@@ -22,29 +35,25 @@ let
     satellite.png|Satellite
     space.png|Deep Space
     voyager-17.jpg|Voyager"
-        
-        # Show selection menu
-        choice=$(echo "$wallpapers" | wofi --dmenu --prompt "Select Wallpaper" --insensitive --matching fuzzy --width 400 --height 300 | cut -d'|' -f1)
-        
-        if [ -n "$choice" ]; then
-          # Check if swww-daemon is running, start if not
-          if ! pgrep -x "swww-daemon" > /dev/null; then
-            swww-daemon &
-            sleep 0.5
-          fi
-          
-          # Set the wallpaper with a smooth 60fps transition
-          # --transition-fps 60: Higher framerate for smoother animation on 165Hz display
-          # --transition-step 45: Lower step value for smoother interpolation (default is 90 for grow)
-          # --filter Nearest: Fastest filter for quicker image loading (good for pixel art wallpapers)
-          swww img "${wallpapersDir}/$choice" --transition-type grow --transition-pos 0.5,0.5 --transition-duration 0.8 --transition-fps 60 --transition-step 45 --filter Nearest &
-          
-          # Wait for swww to finish loading and start transition
-          wait $!
-          
-          # Notify success
-          notify-send "Wallpaper Changed" "Applied: $(echo "$wallpapers" | grep "^$choice|" | cut -d'|' -f2)" --icon=preferences-desktop-wallpaper --expire-time=3000
-        fi
+
+    # Show selection menu - display friendly names only
+    selected=$(echo "$wallpapers" | ${pkgs.wofi}/bin/wofi --dmenu --prompt "Select Wallpaper" --insensitive --matching fuzzy --width 400 --height 300)
+
+    if [ -n "$selected" ]; then
+      # Extract filename from selection
+      choice=$(echo "$selected" | cut -d'|' -f1 | tr -d '[:space:]')
+
+      # Check if file exists and set wallpaper
+      if [ -f "${wallpapersDir}/$choice" ]; then
+        ${pkgs.swww}/bin/swww img "${wallpapersDir}/$choice" \
+          --transition-type grow \
+          --transition-pos 0.5,0.5 \
+          --transition-duration 0.8 \
+          --transition-fps 60 \
+          --transition-step 45 \
+          --filter Nearest
+      fi
+    fi
   '';
 
 in
@@ -168,6 +177,7 @@ in
       "$terminal" = "ghostty";
       "$menu" = "wofi --show drun";
       "$wallpaper" = "${wallpaperSwitcher}";
+      "$power" = "${powerMenu}";
 
       # ── Keybindings ─────────────────────────────────────────────────────────────
       bind = [
@@ -179,6 +189,9 @@ in
 
         # Clipboard history picker
         "$mod SHIFT, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+
+        # Power menu (shutdown/reboot with confirmation)
+        "$mod SHIFT, P, exec, $power"
 
         # Layout
         "$mod, F, fullscreen, 0"
@@ -290,7 +303,8 @@ in
         "waybar"
         "swaync"
         "swww-daemon"
-        "swww img ${config.stylix.image}"
+        # Note: Initial wallpaper is handled by Stylix (train-sideview.png)
+        # swww remembers the last wallpaper across sessions
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "blueman-applet"

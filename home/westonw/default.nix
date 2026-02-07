@@ -86,6 +86,9 @@
     ];
   };
 
+  # Disable hyprpaper so swww can manage wallpapers
+  services.hyprpaper.enable = lib.mkForce false;
+
   # Let home-manager manage itself
   programs.home-manager.enable = true;
 }
