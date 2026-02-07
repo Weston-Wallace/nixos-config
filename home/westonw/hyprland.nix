@@ -126,6 +126,8 @@ in
           "linear, 0, 0, 1, 1"
           "almostLinear, 0.5, 0.5, 0.75, 1.0"
           "quick, 0.15, 0, 0.1, 1"
+          "popinBouncy, 0.34, 1.56, 0.64, 1"
+          "easeOutBack, 0.34, 1.56, 0.64, 1"
         ];
 
         animation = [
@@ -138,8 +140,8 @@ in
           "fadeOut, 1, 1.46, almostLinear"
           "fade, 1, 3.03, quick"
           "layers, 1, 3.81, easeOutQuint"
-          "layersIn, 1, 4, easeOutQuint, fade"
-          "layersOut, 1, 1.5, linear, fade"
+          "layersIn, 1, 2.8, easeOutBack, popin 60%"
+          "layersOut, 1, 1.0, easeOutQuint, popin 60%"
           "fadeLayersIn, 1, 1.79, almostLinear"
           "fadeLayersOut, 1, 1.39, almostLinear"
           "workspaces, 1, 1.94, almostLinear, fade"

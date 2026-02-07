@@ -80,8 +80,43 @@
   # Firmware updates
   services.fwupd.enable = true;
 
-  # Fingerprint reader
+  # Fingerprint reader (Goodix 27c6:609c is natively supported)
   services.fprintd.enable = true;
+
+  # Allow wheel group to enroll fingerprints without authentication
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id == "net.reactivated.fprint.device.enroll" &&
+          subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+
+  # Enable fingerprint for login (greetd), sudo, and hyprlock
+  # Password comes first so typing it authenticates immediately
+  # Fingerprint works as fallback if password is empty/wrong
+  security.pam.services.greetd.fprintAuth = true;
+  security.pam.services.sudo = {
+    fprintAuth = true;
+    text = ''
+      auth sufficient pam_unix.so likeauth nullok try_first_pass
+      auth sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so
+      account required pam_unix.so
+      password sufficient pam_unix.so nullok yescrypt
+      session required pam_unix.so
+    '';
+  };
+  security.pam.services.hyprlock = {
+    fprintAuth = true;
+    text = ''
+      auth sufficient pam_unix.so likeauth nullok try_first_pass
+      auth sufficient ${pkgs.fprintd}/lib/security/pam_fprintd.so
+      account required pam_unix.so
+      password sufficient pam_unix.so nullok yescrypt
+      session required pam_unix.so
+    '';
+  };
 
   # Audio
   services.pipewire = {
@@ -107,6 +142,7 @@
       "networkmanager"
       "video"
       "lp"
+      "plugdev"
     ];
   };
 
