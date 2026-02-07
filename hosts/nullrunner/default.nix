@@ -84,6 +84,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
+    nerd-fonts.space-mono
     noto-fonts
     noto-fonts-color-emoji
   ];
@@ -103,8 +104,8 @@
     # Fonts
     fonts = {
       monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font";
+        package = pkgs.nerd-fonts.space-mono;
+        name = "SpaceMono Nerd Font";
       };
       sansSerif = {
         package = pkgs.noto-fonts;

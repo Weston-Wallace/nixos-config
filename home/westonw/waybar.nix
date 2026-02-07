@@ -49,37 +49,37 @@ in
         };
 
         clock = {
-          format = "  {:%H:%M}";
-          format-alt = "  {:%A, %B %d, %Y}";
+          format = "󰥔 {:%H:%M}";
+          format-alt = "󰃭 {:%A, %B %d, %Y}";
           tooltip-format = "<tt><small>{calendar}</small></tt>";
         };
 
         cpu = {
-          format = "  {usage}%";
+          format = "󰍛 {usage}%";
           interval = 5;
           tooltip = true;
         };
 
         memory = {
-          format = "  {percentage}%";
+          format = "󰘚 {percentage}%";
           interval = 5;
           tooltip = true;
           tooltip-format = "{used:0.1f}GiB / {total:0.1f}GiB";
         };
 
         pulseaudio = {
-          format = "{icon}  {volume}%";
-          format-muted = "  muted";
+          format = "{icon} {volume}%";
+          format-muted = "󰖁 muted";
           format-icons = {
-            default = [ "" "" "" ];
+            default = [ "󰕿" "󰖀" "󰕾" ];
           };
           on-click = "pavucontrol";
         };
 
         network = {
-          format-wifi = "  {signalStrength}%";
-          format-ethernet = "  {ipaddr}";
-          format-disconnected = "  offline";
+          format-wifi = "󰤨 {signalStrength}%";
+          format-ethernet = "󰈀 {ipaddr}";
+          format-disconnected = "󰤭 offline";
           tooltip-format-wifi = "{essid} ({signalStrength}%)";
           tooltip-format-ethernet = "{ifname}: {ipaddr}/{cidr}";
         };
@@ -89,10 +89,10 @@ in
             warning = 30;
             critical = 15;
           };
-          format = "{icon}  {capacity}%";
-          format-charging = "  {capacity}%";
-          format-plugged = "  {capacity}%";
-          format-icons = [ "" "" "" "" "" ];
+          format = "{icon} {capacity}%";
+          format-charging = "󰂄 {capacity}%";
+          format-plugged = "󰂄 {capacity}%";
+          format-icons = [ "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" ];
           tooltip-format = "{timeTo}";
         };
 
