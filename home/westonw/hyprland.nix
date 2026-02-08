@@ -63,8 +63,14 @@ in
 
     settings = {
       # ── Monitors ────────────────────────────────────────────────────────────────
-        # Auto-detect (Framework 16 internal + any external)
-        monitor = [ ", preferred, auto, 1.25" ];
+      # Framework 16 internal display (16:10, 165Hz)
+      # Samsung Odyssey G7 27" external (2K, 240Hz) - positioned to the left
+      monitor = [
+        "eDP-2, 2560x1600@165, 2560x0, 1.25"
+        "DP-5, 2560x1440@240, 0x0, 1"
+        # Fallback for any other monitors
+        ", preferred, auto, 1"
+      ];
 
       # ── Input ───────────────────────────────────────────────────────────────────
       input = {
@@ -305,12 +311,11 @@ in
       exec-once = [
         "waybar"
         "swaync"
-        "swww-daemon"
-        # Note: Initial wallpaper is handled by Stylix (train-sideview.png)
-        # swww remembers the last wallpaper across sessions
+        "swww-daemon && sleep 1 && swww img ${wallpapersDir}/train-sideview.png"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "blueman-applet"
+        "nm-applet"
         "hypridle"
       ];
     };
