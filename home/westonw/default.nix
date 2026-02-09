@@ -66,6 +66,7 @@ in
 
     # Coding agent
     opencode
+    codex
   ];
 
   xdg.desktopEntries."org.godotengine.Godot4.6" = {

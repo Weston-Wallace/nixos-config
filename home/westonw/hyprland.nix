@@ -122,6 +122,11 @@ in
         dim_strength = 0.1;
       };
 
+      # ── Cursor ───────────────────────────────────────────────────────────────────
+      cursor = {
+        no_hardware_cursors = true;
+      };
+
       # ── Animations ──────────────────────────────────────────────────────────────
       animations = {
         enabled = true;

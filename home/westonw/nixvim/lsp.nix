@@ -91,9 +91,10 @@
           };
 
           # Zig
-          zls = {
-            enable = true;
-          };
+          # TODO: Re-enable zls once nixpkgs build is fixed.
+          # zls = {
+          #   enable = true;
+          # };
 
           # Java
           jdtls = {
