@@ -145,6 +145,7 @@
             cpp = [ "clang-format" ];
             zig = [ "zigfmt" ];
             dart = [ "dart_format" ];
+            odin = [ "odinfmt" ];
             "_" = [ "trim_whitespace" ];
           };
         };

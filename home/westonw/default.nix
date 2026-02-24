@@ -1,4 +1,9 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
   godotWayland = pkgs.symlinkJoin {
@@ -58,11 +63,14 @@ in
     wget
     unzip
     jq
+    odin
     godotWayland
 
     # GUI apps
+    thunar
     vesktop
     blender
+    libreoffice
 
     # Coding agent
     opencode
@@ -78,7 +86,10 @@ in
     terminal = false;
     type = "Application";
     mimeType = [ "application/x-godot-project" ];
-    categories = [ "Development" "IDE" ];
+    categories = [
+      "Development"
+      "IDE"
+    ];
   };
 
   # Shell
@@ -106,6 +117,7 @@ in
       cursor-style-blink = false;
       mouse-hide-while-typing = true;
       background-opacity = "0.85";
+      font-feature = "-calt";
     };
   };
 

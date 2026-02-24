@@ -36,17 +36,15 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixvim, stylix, spicetify-nix }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
+  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixvim, stylix, spicetify-nix }@inputs: {
       # NixOS system configuration
       nixosConfigurations.nullrunner = nixpkgs.lib.nixosSystem {
-        inherit system;
         specialArgs = { inherit inputs; };
         modules = [
+          {
+            nixpkgs.hostPlatform = "x86_64-linux";
+          }
+
           # Hardware configuration
           nixos-hardware.nixosModules.framework-16-amd-ai-300-series
           

@@ -159,6 +159,7 @@
     nerd-fonts.fira-code
     nerd-fonts.jetbrains-mono
     nerd-fonts.space-mono
+    orbitron
     noto-fonts
     noto-fonts-color-emoji
   ];

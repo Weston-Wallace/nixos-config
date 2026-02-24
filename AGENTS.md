@@ -60,6 +60,9 @@ nix flake check
 # Update all flake inputs to latest versions
 nix flake update --flake ~/nixos-config
 
+# Update a single flake input (preferred over deprecated lock --update-input alias)
+nix flake update home-manager --flake ~/nixos-config
+
 # Format all Nix files (if formatter is wired into flake outputs)
 nix fmt
 ```

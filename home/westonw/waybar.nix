@@ -38,15 +38,15 @@ in
         "hyprland/workspaces" = {
           format = "{icon}";
           format-icons = {
-            "1" = "一";
-            "2" = "二";
-            "3" = "三";
-            "4" = "四";
-            "5" = "五";
-            "6" = "六";
-            "7" = "七";
-            "8" = "八";
-            "9" = "九";
+            "1" = "0x1";
+            "2" = "0x2";
+            "3" = "0x3";
+            "4" = "0x4";
+            "5" = "0x5";
+            "6" = "0x6";
+            "7" = "0x7";
+            "8" = "0x8";
+            "9" = "0x9";
           };
           on-click = "activate";
           sort-by-number = true;
@@ -183,6 +183,7 @@ in
       }
 
       #workspaces button {
+        font-family: "Orbitron", "${fonts.monospace.name}", sans-serif;
         padding: 0 8px;
         margin: 4px 2px;
         border-radius: 10px;
