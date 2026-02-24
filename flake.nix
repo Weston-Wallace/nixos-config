@@ -1,12 +1,15 @@
 # NixOS Configuration Flake
-# Host: nullrunner (Framework 16-inch AMD AI 300 series)
+# Hosts: nullrunner (Framework 16) and scar (ASUS server)
 
 {
-  description = "NixOS configuration for nullrunner";
+  description = "NixOS configurations for nullrunner and scar";
 
   inputs = {
     # Package repository
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    # Dedicated nixpkgs for opencode updates
+    nixpkgs-opencode.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Hardware-specific modules (Framework laptop)
     nixos-hardware.url = "github:NixOS/nixos-hardware";
@@ -36,34 +39,70 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, nixvim, stylix, spicetify-nix }@inputs: {
-      # NixOS system configuration
-      nixosConfigurations.nullrunner = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          {
-            nixpkgs.hostPlatform = "x86_64-linux";
-          }
+  outputs = {
+    self,
+    nixpkgs,
+    nixpkgs-opencode,
+    nixos-hardware,
+    home-manager,
+    nixvim,
+    stylix,
+    spicetify-nix,
+  }@inputs: {
+    nixosConfigurations.nullrunner = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        {
+          nixpkgs.hostPlatform = "x86_64-linux";
+        }
 
-          # Hardware configuration
-          nixos-hardware.nixosModules.framework-16-amd-ai-300-series
-          
-          # System configuration
-          ./hosts/nullrunner
-          
-          # Stylix theming
-          stylix.nixosModules.stylix
-          
-          # Home manager as NixOS module
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.backupFileExtension = "backup";
-            home-manager.users.westonw = import ./home/westonw;
-            home-manager.extraSpecialArgs = { inherit inputs; inherit (inputs) spicetify-nix; };
-          }
-        ];
-      };
+        # Hardware configuration
+        nixos-hardware.nixosModules.framework-16-amd-ai-300-series
+
+        # System configuration
+        ./hosts/nullrunner
+
+        # Stylix theming
+        stylix.nixosModules.stylix
+
+        # Home manager as NixOS module
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
+          home-manager.users.westonw = import ./home/westonw;
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            inherit (inputs) spicetify-nix;
+          };
+        }
+      ];
     };
+
+    nixosConfigurations.scar = nixpkgs.lib.nixosSystem {
+      specialArgs = { inherit inputs; };
+      modules = [
+        {
+          nixpkgs.hostPlatform = "x86_64-linux";
+        }
+
+        # System configuration
+        ./hosts/scar
+
+        # Home manager as NixOS module
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
+          home-manager.users.westonw = import ./home/westonw/server.nix;
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+            inherit (inputs) spicetify-nix;
+          };
+        }
+      ];
+    };
+  };
 }

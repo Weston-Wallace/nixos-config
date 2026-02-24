@@ -6,6 +6,8 @@
 }:
 
 let
+  opencodePkgs = inputs.nixpkgs-opencode.legacyPackages.${pkgs.system};
+
   godotWayland = pkgs.symlinkJoin {
     name = "godot-wayland";
     paths = [ pkgs.godot ];
@@ -67,7 +69,7 @@ in
     libreoffice
 
     # Coding agent
-    opencode
+    opencodePkgs.opencode
     codex
   ];
 
