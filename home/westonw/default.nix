@@ -51,12 +51,6 @@ in
     pavucontrol
     playerctl
 
-    # Bluetooth
-    blueman
-
-    # WiFi management GUI
-    networkmanagerapplet
-
     # CLI tools
     btop
     curl

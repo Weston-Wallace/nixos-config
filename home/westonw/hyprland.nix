@@ -319,8 +319,6 @@ in
         "swww-daemon && sleep 1 && swww img ${wallpapersDir}/train-sideview.png"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
-        "blueman-applet"
-        "nm-applet"
         "hypridle"
       ];
     };
